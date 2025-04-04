@@ -2,17 +2,24 @@ name: Closed issue message
 
 on:
   issues:
-    types: [ closed ]
+    types: [closed]
+
 jobs:
   auto_comment:
     runs-on: ubuntu-latest
     permissions:
       issues: write
     steps:
-      - uses: aws-actions/closed-issue-message@v2
+      - uses: actions-ecosystem/action-add-comment@v1
         with:
-          # These inputs are both required
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          message: |
-            This issue is now closed. Comments on closed issues are hard for our team to see. 
-            If you need more assistance, please either tag a team member or open a new issue that references this one. 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          body: |
+            :wave: This issue has been closed. 
+            
+            Please note that comments on closed issues are harder for our team to notice. 
+            If you need further help, you can:
+            - Mention a team member with @username
+            - Open a new issue and reference this one (#${{ github.event.issue.number }})
+            
+            Thank you for your contribution!
